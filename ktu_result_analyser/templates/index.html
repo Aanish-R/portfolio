@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTU Result Analyzer | Convert PDF results to Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        // Immediate theme initialization to prevent flash
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        .user-nav {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            border: var(--glass-border);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-accent);
+            background: rgba(255, 255, 255, 0.05);
+            transform: rotate(15deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="user-nav">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+            <i class="ph ph-moon"></i>
+        </button>
+        <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.1);"></div>
+        {% if user %}
+        <i class="ph ph-user-circle" style="font-size: 1.5rem; color: var(--primary-accent);"></i>
+        <span class="user-name" style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary);">{{ user.name
+            }}</span>
+        <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.1);"></div>
+        <a href="/logout" class="btn-logout"
+            style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem;">Logout</a>
+        {% else %}
+        <a href="/login" class="btn-logout"
+            style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem;">Login</a>
+        {% endif %}
+    </div>
+    <div class="container">
+        <header>
+            <div class="app-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 30V10H14V30H10Z" fill="white" />
+                    <path d="M18 30V18H22V30H18Z" fill="white" fill-opacity="0.8" />
+                    <path d="M26 30V22H30V30H26Z" fill="white" fill-opacity="0.6" />
+                    <path d="M14 14L22 22L30 14" stroke="white" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <h1>KTU Result Analyzer</h1>
+            <p>Transform your PDF result files into actionable insights and organized Excel sheets instantly.</p>
+            <div style="margin-top: 1.5rem;">
+                <a href="/calculator" class="btn-secondary btn-gpa">
+                    <i class="ph ph-calculator"></i> GPA Calculator
+                </a>
+            </div>
+        </header>
+
+        <main>
+            <div class="upload-card">
+                <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <div class="drop-zone" id="dropZone">
+                        <i class="ph ph-file-pdf"></i>
+                        <h3>Drag & Drop your Result PDF</h3>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">or click to
+                            browse</p>
+                        <input type="file" name="file" id="fileInput" accept=".pdf" style="display: none;" required>
+                    </div>
+                    <div id="fileInfo" style="margin-top: 1rem; display: none;">
+                        <span id="fileName"></span>
+                    </div>
+                    <button type="submit" class="btn-primary">Analyze Results</button>
+                </form>
+            </div>
+
+            <!-- Always show history section to fill space -->
+            <div class="history-section">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <h2 style="margin: 0; font-size: 1.5rem;">Recent Analysis</h2>
+
+                        {% if history %}
+                        <div class="filter-group"
+                            style="display: flex; align-items: center; gap: 0.5rem; background: var(--history-bg); padding: 0.4rem 0.8rem; border-radius: 10px; border: var(--glass-border);">
+                            <i class="ph ph-clock-counter-clockwise"
+                                style="color: var(--primary-accent); font-size: 0.9rem;"></i>
+                            <select onchange="if(this.value) window.location.href='/view/'+this.value"
+                                style="background: none; border: none; color: var(--text-primary); font-size: 0.85rem; font-weight: 600; cursor: pointer; outline: none; max-width: 150px;">
+                                <option value="" style="background: #1e293b; color: white;">Quick Select...</option>
+                                {% for item in history %}
+                                <option value="{{ item.id }}" style="background: #1e293b; color: white;">{{
+                                    item.filename }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <form action="/clear_history" method="get"
+                        onsubmit="return confirm('Clear all history and files?');">
+                        <button type="submit"
+                            style="background: none; border: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                            <i class="ph ph-trash"></i> Clear All
+                        </button>
+                    </form>
+                </div>
+                <div class="history-list">
+                    {% if history %}
+                    {% for item in history %}
+                    <div class="history-item">
+                        <div class="history-icon">
+                            <i class="ph ph-file-xls" style="font-size: 1.5rem; color: #10b981;"></i>
+                        </div>
+                        <div class="history-info">
+                            <div class="history-name">{{ item.filename }}</div>
+                            <div class="history-date">{{ item.date }}</div>
+                        </div>
+                        <div class="history-actions">
+                            <a href="{{ url_for('view_analysis', entry_id=item.id) }}" class="btn-icon"
+                                title="View Analytics" style="color: var(--primary-accent);">
+                                <i class="ph ph-chart-bar"></i>
+                            </a>
+                            <a href="{{ url_for('download_file', filename=item.excel_filename) }}" class="btn-icon"
+                                title="Download Excel">
+                                <i class="ph ph-download-simple"></i>
+                            </a>
+                            <a href="{{ url_for('delete_entry', entry_id=item.id) }}" class="btn-icon btn-danger"
+                                title="Delete"
+                                onclick="return confirm('Are you sure you want to permanently delete this file?');">
+                                <i class="ph ph-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div
+                        style="text-align: center; color: var(--text-secondary); padding: 2rem; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.1);">
+                        <i class="ph ph-clock-counter-clockwise"
+                            style="font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5;"></i>
+                        <p>No recent analysis found.</p>
+                        <p style="font-size: 0.85rem; opacity: 0.7;">Upload a PDF to see it here.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="sheet-loader">
+            <div class="sheet-paper">
+                <div class="sheet-fill"></div>
+                <div class="sheet-lines">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+        <div class="loading-percent">0%</div>
+        <div class="loading-text">Analyzing your Results...</div>
+        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Organizing data into sheets
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const uploadForm = document.getElementById('uploadForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        uploadForm.addEventListener('submit', (e) => {
+            if (fileInput.files.length > 0) {
+                loadingOverlay.classList.add('show');
+                simulateProgress();
+            }
+        });
+
+        function simulateProgress() {
+            const percentEl = document.querySelector('.loading-percent');
+            let percent = 0;
+
+            const interval = setInterval(() => {
+                // Slow down as we get closer to 99%
+                const increment = Math.max(1, Math.floor((100 - percent) / 8));
+                percent += increment;
+
+                if (percent >= 99) {
+                    percent = 99;
+                    clearInterval(interval);
+                }
+
+                percentEl.textContent = `${percent}%`;
+            }, 300);
+        }
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                fileInput.files = files;
+                updateFileInfo(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                updateFileInfo(fileInput.files[0]);
+            }
+        });
+
+        function updateFileInfo(file) {
+            fileInfo.style.display = 'block';
+            fileName.textContent = `Selected: ${file.name}`;
+            fileName.style.color = 'var(--primary-accent)';
+        }
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'dark' ? 'ph ph-moon' : 'ph ph-sun';
+        }
+
+        // Set initial icon
+        updateThemeIcon(document.documentElement.getAttribute('data-theme'));
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+    </script>
+    <footer
+        style="text-align: center; margin-top: 5rem; padding-bottom: 2rem; color: var(--text-secondary); font-size: 0.8rem; opacity: 0.6;">
+        <p>© 2026 KTU Result Analyzer</p>
+    </footer>
+</body>
+
+</html>

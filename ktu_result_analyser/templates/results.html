@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - KTU Result Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        .user-nav {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            border: var(--glass-border);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-accent);
+            background: rgba(255, 255, 255, 0.05);
+            transform: rotate(15deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div style="position: fixed; top: 2rem; left: 2rem; z-index: 1000;">
+        <a href="/" class="btn-secondary"
+            style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 99px; background: var(--card-bg); border: var(--glass-border); color: var(--text-secondary); font-weight: 600; font-size: 0.9rem; transition: 0.3s; backdrop-filter: blur(10px);">
+            <i class="ph ph-arrow-left"></i> New Analysis
+        </a>
+    </div>
+    <div class="user-nav">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+            <i class="ph ph-moon"></i>
+        </button>
+        <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.1);"></div>
+        {% if user %}
+        <i class="ph ph-user-circle" style="font-size: 1.5rem; color: var(--primary-accent);"></i>
+        <span class="user-name" style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary);">{{ user.name
+            }}</span>
+        <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.1);"></div>
+        <a href="/logout" class="btn-logout"
+            style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem;">Logout</a>
+        {% else %}
+        <a href="/login" class="btn-logout"
+            style="color: var(--text-secondary); text-decoration: none; font-size: 0.8rem;">Login</a>
+        {% endif %}
+    </div>
+    <div class="container">
+        <header style="margin-bottom: 2rem;">
+            <div class="app-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 30V10H14V30H10Z" fill="white" />
+                    <path d="M18 30V18H22V30H18Z" fill="white" fill-opacity="0.8" />
+                    <path d="M26 30V22H30V30H26Z" fill="white" fill-opacity="0.6" />
+                    <path d="M14 14L22 22L30 14" stroke="white" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <h1>Analysis Complete</h1>
+            {% if filename %}
+            <div
+                style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: var(--primary-accent); display: inline-flex; align-items: center; gap: 8px; padding: 0.5rem 1rem; border-radius: 12px; margin-bottom: 1rem; font-size: 0.9rem; font-weight: 500;">
+                <i class="ph ph-file-pdf"></i>
+                {{ filename }}
+            </div>
+            {% endif %}
+            <p>Here's a breakdown of the results from your uploaded PDF.</p>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <a href="{{ url_for('download_file') }}" class="btn-primary"
+                    style="display: inline-flex; align-items: center; gap: 0.5rem; width: auto; text-decoration: none;">
+                    <i class="ph ph-file-xls"></i> Download Excel Report
+                </a>
+                <button onclick="openInGoogleSheets()" class="btn-google"
+                    style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="ph ph-google-logo"></i> Open in Google Sheets
+                </button>
+            </div>
+        </header>
+
+        <!-- Google Sheets Instruction Modal -->
+        <div id="googleModal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <i class="ph ph-google-logo" style="font-size: 2rem; color: #10b981;"></i>
+                    <h2>Open in Google Sheets</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Because this app runs locally on your computer, you need to manually import the file. It's easy:
+                    </p>
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-num">1</span>
+                            <p>We will download <b>ktu_result_google_sheets.xlsx</b> to your computer.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">2</span>
+                            <p>We will open a <b>blank Google Sheet</b> in a new tab.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">3</span>
+                            <p>Simply <b>Drag and Drop</b> the downloaded file into that blank sheet.</p>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="proceedToGoogleSheets()" class="btn-primary" style="margin-top: 1rem;">
+                    Got it, Open Sheet
+                </button>
+                <button onclick="closeModal()"
+                    style="background: none; border: none; color: var(--text-secondary); margin-top: 1rem; cursor: pointer; text-decoration: underline;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <script>
+            function openInGoogleSheets() {
+                const modal = document.getElementById('googleModal');
+                modal.classList.add('show');
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('googleModal');
+                modal.classList.remove('show');
+            }
+
+            function proceedToGoogleSheets() {
+                closeModal();
+
+                // 1. Open sheets.new in a new tab immediately
+                window.open('https://sheets.new', '_blank');
+
+                // 2. Trigger the download 
+                setTimeout(() => {
+                    const link = document.createElement('a');
+                    link.href = "{{ url_for('download_file', type='google') }}";
+                    link.download = 'ktu_result_google_sheets.xlsx';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, 500);
+            }
+        </script>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Students</div>
+                <div class="stat-value">{{ stats.total_students }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Entries Processed</div>
+                <div class="stat-value">{{ stats.total_entries }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Subjects Found</div>
+                <div class="stat-value">{{ stats.subjects|length }}</div>
+            </div>
+        </div>
+
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <h2 style="margin: 0; font-weight: 600;">Department & Subject Wise Analytics</h2>
+
+            <div class="filter-group"
+                style="display: flex; align-items: center; gap: 0.75rem; background: var(--card-bg); padding: 0.5rem 1rem; border-radius: 12px; border: var(--glass-border);">
+                <i class="ph ph-funnel" style="color: var(--primary-accent);"></i>
+                <label style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;">Filter Dept:</label>
+                <select id="deptFilter" onchange="filterDepartment()"
+                    style="background: var(--card-bg); border: none; color: var(--text-primary); font-family: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; outline: none; min-width: 100px;">
+                    <option value="all" style="background: #1e293b; color: white;">All Departments</option>
+                    {% for dept in stats.departments %}
+                    <option value="{{ dept }}" style="background: #1e293b; color: white;">{{ dept }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <script>
+            function filterDepartment() {
+                const selected = document.getElementById('deptFilter').value;
+                const sections = document.querySelectorAll('.dept-section');
+
+                sections.forEach(sec => {
+                    if (selected === 'all' || sec.getAttribute('data-dept') === selected) {
+                        sec.style.display = 'block';
+                    } else {
+                        sec.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+
+        {% for dept in stats.departments %}
+        <div class="dept-section" data-dept="{{ dept }}" style="margin-bottom: 3rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <span class="dept-badge"
+                    style="background: var(--primary-accent); color: white; padding: 0.5rem 1.5rem; border-radius: 99px; font-weight: 700; font-size: 1.2rem;">{{
+                    dept }}</span>
+                <span style="color: var(--text-secondary); font-size: 0.9rem;">
+                    {{ stats.dept_summary[dept].count }} Students | {{ stats.dept_summary[dept].entries }} Entries
+                </span>
+            </div>
+
+            {% for year, subjects in stats.dept_sub_stats[dept].items() %}
+            <div class="year-block"
+                style="background: var(--year-block-bg); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--year-block-border);">
+                <h3
+                    style="margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="ph ph-calendar-blank"></i> Admission Year: {{ year }}
+                </h3>
+                <div class="table-container" style="background: transparent; border: none; padding: 0;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject Code</th>
+                                <th>Passed</th>
+                                <th>Failed / Abs</th>
+                                <th>Pass %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sub_code, sub_data in subjects.items() %}
+                            <tr>
+                                <td style="font-family: monospace; font-weight: 600;">{{ sub_code }}</td>
+                                <td style="color: var(--success);">{{ sub_data.pass }}</td>
+                                <td style="color: var(--danger);">{{ sub_data.fail }}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        {% set pass_p = (sub_data.pass / sub_data.total * 100) if sub_data.total > 0
+                                        else 0 %}
+                                        <div
+                                            style="flex-grow: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; width: 60px;">
+                                            <div
+                                                style="height: 100%; width: {{ pass_p }}%; background: {% if pass_p > 75 %}#10b981{% elif pass_p > 40 %}#f59e0b{% else %}#ef4444{% endif %};">
+                                            </div>
+                                        </div>
+                                        <span style="font-weight: 600; min-width: 45px;">{{ "%.1f"|format(pass_p)
+                                            }}%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+    </div>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        function updateThemeIcon(theme) {
+            themeIcon.className = theme === 'dark' ? 'ph ph-moon' : 'ph ph-sun';
+        }
+
+        updateThemeIcon(document.documentElement.getAttribute('data-theme'));
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+    </script>
+</body>
+
+</html>

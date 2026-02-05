@@ -1,0 +1,11 @@
+Flask
+pdfplumber
+pandas
+openpyxl
+werkzeug
+flask-login
+flask-sqlalchemy
+flask-mail
+python-dotenv
+flaskwebgui
+psutil
