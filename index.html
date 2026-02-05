@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Creative Developer</title>
+    <meta name="description" content="Personal portfolio showcasing creative development work and projects.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- DevIcons for official tool symbols -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="dark-mode">
+    <div class="cursor-glow"></div>
+
+    <nav id="navbar">
+        <div class="container">
+            <div class="logo">Anish<span>.Reji</span></div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button id="theme-toggle" aria-label="Toggle theme">
+                <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="reveal">Hello, I'm</h2>
+                <h1 class="reveal">Anish <span class="gradient-text">Reji</span></h1>
+                <p class="reveal">B.Tech in Computer Science and Engineering. Building digital experiences that blend
+                    aesthetic beauty with functional excellence. Based in India.</p>
+                <div class="hero-btns reveal">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-visual reveal">
+                <div class="blob-shape"></div>
+            </div>
+        </div>
+        <a href="#about" class="scroll-down">
+            <span></span>
+        </a>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="subtitle">Discovery</span>
+                <h2>About Me</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I am an aspiring Computer Science and Engineering student in my B.Tech journey. As a fresher, I
+                        am deeply committed to building a strong foundation in modern web technologies and data
+                        analytics.</p>
+                    <p>I focus on bridging the gap between academic theory and practical application through hands-on
+                        projects and continuous self-improvement.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <h3>Fresher</h3>
+                        <p>CSE Graduate</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>5+</h3>
+                        <p>Academic Projects</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Fast</h3>
+                        <p>Learner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="subtitle">Academic Work</span>
+                <h2>Featured Project</h2>
+            </div>
+            <div class="project-grid" id="project-container">
+                <a href="http://127.0.0.1:5000" target="_blank" class="project-card-link">
+                    <div class="project-card">
+                        <div class="project-img logo-bg">
+                            <img src="ktu-logo.svg" alt="KTU Result Analyzer">
+                        </div>
+                        <div class="project-info">
+                            <h3>KTU Result Analyzer</h3>
+                            <p>A specialized tool designed to process and analyze KTU academic results. It provides
+                                detailed department-wise and year-wise analytics, helping students and faculty visualize
+                                performance trends effectively.</p>
+                            <div class="project-tags">
+                                <span><i class="devicon-python-plain colored"></i>Python</span>
+                                <span><i class="devicon-javascript-plain colored"></i>JavaScript</span>
+                                <span><i data-lucide="bar-chart-3"></i>Data Analytics</span>
+                            </div>
+                            <span class="project-link">Run Project →</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="section-header">
+            <span class="subtitle">Expertise & Learning</span>
+            <h2>Technical Toolkit</h2>
+        </div>
+        <div class="skills-container">
+            <div class="skill-category">
+                <div class="category-header">
+                    <i data-lucide="layout" class="icon"></i>
+                    <h3>Web Development</h3>
+                </div>
+                <div class="skill-tags">
+                    <span><i class="devicon-html5-plain colored"></i>HTML5/CSS3</span>
+                    <span><i class="devicon-javascript-plain colored"></i>JavaScript (ES6+)</span>
+                    <span><i class="devicon-react-original colored"></i>React</span>
+                    <span><i data-lucide="monitor-smartphone"></i>Responsive Design</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <div class="category-header">
+                    <i data-lucide="bar-chart-2" class="icon"></i>
+                    <h3>Data Analytics</h3>
+                </div>
+                <div class="skill-tags">
+                    <span><i class="devicon-python-plain colored"></i>Python</span>
+                    <span><i class="devicon-pandas-plain colored"></i>Pandas/NumPy</span>
+                    <span><i data-lucide="pie-chart"></i>Visualization</span>
+                    <span><i class="devicon-postgresql-plain colored"></i>SQL</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <div class="category-header">
+                    <i data-lucide="zap" class="icon"></i>
+                    <h3>Automation & n8n</h3>
+                </div>
+                <div class="skill-tags">
+                    <span><i data-lucide="workflow"></i>n8n Workflows</span>
+                    <span><i data-lucide="link"></i>API Integration</span>
+                    <span><i data-lucide="webhook"></i>Webhooks</span>
+                    <span><i data-lucide="cpu"></i>Process Automation</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <div class="category-header">
+                    <i data-lucide="terminal" class="icon"></i>
+                    <h3>Backend & Scripting</h3>
+                </div>
+                <div class="skill-tags">
+                    <span><i class="devicon-nodejs-plain colored"></i>Node.js</span>
+                    <span><i class="devicon-python-plain colored"></i>Python (Advanced)</span>
+                    <span><i class="devicon-postgresql-plain colored"></i>PostgreSQL</span>
+                    <span><i class="devicon-mongodb-plain colored"></i>MongoDB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <span class="subtitle">Get in Touch</span>
+                    <h2>Let's work together</h2>
+                    <p>Have a project in mind or just want to say hi? Feel free to reach out!</p>
+                    <div class="contact-methods">
+                        <div class="method">
+                            <span class="icon">📧</span>
+                            <div class="details">
+                                <label>Email</label>
+                                <a href="mailto:hello@example.com">hello@example.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Anish Reji. Created with passion.</p>
+            <div class="social-links">
+                <a href="#">GitHub</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#home" class="back-to-top" id="back-to-top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
