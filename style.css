@@ -680,6 +680,10 @@ footer .container {
         flex-direction: column;
         gap: 2rem;
     }
-}. p r o j e c t - c a r d - l i n k  
-   t e x t - d e c o r a t i o n :   n o n e ;   c o l o r :   i n h e r i t ;   d i s p l a y :   b l o c k ;    
- 
+}
+
+.project-card-link {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: block;
+}
