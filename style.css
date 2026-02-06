@@ -1,15 +1,15 @@
 :root {
-    --primary: #10b981;
-    --primary-hover: #059669;
-    --secondary: #3b82f6;
-    --bg-dark: #020617;
+    --primary: #22d3ee;
+    --primary-hover: #06b6d4;
+    --secondary: #f43f5e;
+    --bg-dark: #030712;
     --bg-card-dark: #0f172a;
     --text-dark: #f8fafc;
     --text-muted-dark: #94a3b8;
-    --border-dark: rgba(255, 255, 255, 0.08);
+    --border-dark: rgba(34, 211, 238, 0.15);
     --bg-light: #f8fafc;
     --bg-card-light: #ffffff;
-    --text-light: #0f172a;
+    --text-light: #030712;
     --text-muted-light: #64748b;
     --border-light: rgba(15, 23, 42, 0.1);
     --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -20,7 +20,7 @@
     position: fixed;
     width: 800px;
     height: 800px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.02) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, rgba(244, 63, 94, 0.05) 50%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
     transform: translate(-50%, -50%);
