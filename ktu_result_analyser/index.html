@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTU Result Analyzer | Project Details</title>
+    <meta name="description"
+        content="A specialized tool aimed at simplifying the analysis of KTU academic results using Python and Flask.">
+
+    <!-- Reuse main portfolio styles -->
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Project-specific overrides */
+        .project-hero {
+            padding-top: 120px;
+            padding-bottom: 60px;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .code-block {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Fira Code', monospace;
+            margin: 1rem 0;
+        }
+
+        /* Light mode override for code block */
+        body:not(.dark-mode) .code-block {
+            background: #f1f5f9;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card-dark);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        body:not(.dark-mode) .feature-card {
+            background: var(--bg-card-light);
+            border-color: var(--border-light);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <div class="cursor-glow"></div>
+
+    <nav id="navbar">
+        <div class="container">
+            <a href="../index.html" style="text-decoration: none; color: inherit;">
+                <div class="logo">Anish<span>.Reji</span></div>
+            </a>
+
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <a href="../index.html" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">←
+                    Back</a>
+                <button id="theme-toggle" aria-label="Toggle theme">
+                    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="project-hero">
+        <div class="container">
+            <div style="max-width: 800px;">
+                <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <span class="tech-badge"><i class="devicon-python-plain"></i> Python Flask</span>
+                    <span class="tech-badge"><i class="devicon-pandas-plain"></i> Pandas</span>
+                    <span class="tech-badge"><i data-lucide="bar-chart-3" style="width: 16px;"></i> Analytics</span>
+                </div>
+                <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">
+                    KTU Result <span class="gradient-text">Analyzer</span>
+                </h1>
+                <p style="font-size: 1.2rem; opacity: 0.8; margin-bottom: 2.5rem; line-height: 1.8;">
+                    A powerful academic tool designed to parse, analyze, and visualize result data from Kerala
+                    Technological University (KTU).
+                    Transform unstructured PDF results into actionable insights.
+                </p>
+                <div class="hero-btns">
+                    <a href="https://github.com/Aanish-R/portfolio/tree/main/ktu_result_analyser" target="_blank"
+                        class="btn btn-primary">
+                        <i class="devicon-github-original" style="margin-right: 8px;"></i> View Source Code
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <span class="subtitle">Capabilities</span>
+                <h2>Key Features</h2>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="file-text"></i></div>
+                    <h3>PDF Parsing</h3>
+                    <p style="opacity: 0.7;">Automatically extracts student marks, names, and register numbers from
+                        official KTU result PDFs with high accuracy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="pie-chart"></i></div>
+                    <h3>Visual Analytics</h3>
+                    <p style="opacity: 0.7;">Generates interactive charts showing pass percentages, GPA distribution,
+                        and subject-wise performance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="table"></i></div>
+                    <h3>Excel Export</h3>
+                    <p style="opacity: 0.7;">Converts complex result data into clean, formatted Excel sheets for easy
+                        record-keeping and offline analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="filter"></i></div>
+                    <h3>Smart Filtering</h3>
+                    <p style="opacity: 0.7;">Filter results by department, year, or specific subjects to identify trends
+                        and areas for improvement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="subtitle">Integration</span>
+                <h2>How to Run Locally</h2>
+                <p style="opacity: 0.7; margin-top: 1rem; max-width: 600px;">
+                    This application is built with Python and Flask. Since it requires a backend server, it cannot be
+                    hosted directly on static platforms like GitHub Pages. Follow these steps to run it on your machine:
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">1. Clone requirements</h3>
+                    <div class="code-block">
+                        <code style="color: #ec4899;">git</code> clone https://github.com/Aanish-R/portfolio.git<br>
+                        <code style="color: #ec4899;">cd</code> portfolio/ktu_result_analyser
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">2. Install dependencies</h3>
+                    <div class="code-block">
+                        <code style="color: #ec4899;">pip</code> install -r requirements.txt
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">3. Run the application</h3>
+                    <div class="code-block">
+                        <code style="color: #ec4899;">python</code> app.py
+                    </div>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">
+                        The application will start at <span style="color: var(--primary);">http://127.0.0.1:5000</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2026 Anish Reji. Built with passion & Python.</p>
+        </div>
+    </footer>
+
+    <!-- Use parent script for theme toggling logic -->
+    <script src="../script.js"></script>
+    <script>
+        // Minimal mobile menu fix if reusing script.js in subdirectory
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // Adjust back button path if needed
+            const backBtn = document.querySelector('.logo').parentElement;
+            if (window.location.hostname.includes('github.io')) {
+                // Production adjustment logic if paths differ, 
+                // but appropriate relative paths ../ work in most cases.
+            }
+        });
+    </script>
+</body>
+
+</html>
