@@ -130,7 +130,7 @@ const formStatus = document.getElementById('form-status');
 
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
-        // e.preventDefault(); // Temporarily disabled to force activation page
+        e.preventDefault();
         const btn = document.getElementById('submit-btn');
         const data = new FormData(contactForm);
 
