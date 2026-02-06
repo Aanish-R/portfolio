@@ -162,7 +162,10 @@ if (contactForm) {
             }
         } catch (error) {
             // General error
-            formStatus.textContent = "Oops! Correlation failed. Please try again or use direct email.";
+            console.error('Form submission error:', error);
+            formStatus.textContent = error.message.includes("Submission failed")
+                ? "Oops! Submission failed. Please try again or use direct email."
+                : "Oops! " + error.message;
             formStatus.style.backgroundColor = "rgba(244, 63, 94, 0.2)"; // Rose semi-transparent
             formStatus.style.color = "#f43f5e";
             formStatus.style.display = 'block';
