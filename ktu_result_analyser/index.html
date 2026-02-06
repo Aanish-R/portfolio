@@ -41,12 +41,16 @@
             border-bottom-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* Fix button alignment - prevent theme toggle from being absolute */
+        /* Fix button alignment - force it out of absolute positioning */
         #navbar #theme-toggle {
-            position: static;
-            margin-right: 0;
+            position: relative !important;
+            right: auto !important;
+            top: auto !important;
+            margin: 0 !important;
+            display: flex !important;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
 
         body:not(.dark-mode) #navbar #theme-toggle {
@@ -56,11 +60,11 @@
 
         .navbar-actions {
             display: flex;
-            gap: 1.5rem;
-            /* Increased gap between Back button and Toggle */
+            gap: 1.2rem;
             align-items: center;
             margin-left: auto;
-            padding-right: 2rem;
+            padding-right: 1.5rem;
+            position: relative;
         }
 
         /* Project-specific overrides */
