@@ -23,15 +23,44 @@
     <style>
         /* Navbar override for KTU page */
         #navbar {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
+            background: #0f172a;
+            /* Solid background to prevent overlap */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 1rem 0;
+            /* Slightly tighter padding */
         }
 
         body:not(.dark-mode) #navbar {
-            background: rgba(248, 250, 252, 0.95);
+            background: #f8fafc;
             border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Fix button alignment - prevent theme toggle from being absolute */
+        #navbar #theme-toggle {
+            position: static;
+            margin-right: 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body:not(.dark-mode) #navbar #theme-toggle {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-actions {
+            display: flex;
+            gap: 1.5rem;
+            /* Increased gap between Back button and Toggle */
+            align-items: center;
+            margin-left: auto;
+            padding-right: 2rem;
         }
 
         /* Project-specific overrides */
@@ -124,7 +153,7 @@
                 <div class="logo">Anish<span>.Reji</span></div>
             </a>
 
-            <div style="display: flex; gap: 1rem; align-items: center; margin-left: auto;">
+            <div class="navbar-actions">
                 <a href="../index.html" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">←
                     Back</a>
                 <button id="theme-toggle" aria-label="Toggle theme">
