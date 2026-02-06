@@ -64,6 +64,7 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
+            justify-items: center;
         }
 
         .feature-card {
@@ -72,6 +73,8 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition);
+            max-width: 400px;
+            width: 100%;
         }
 
         body:not(.dark-mode) .feature-card {
