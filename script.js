@@ -124,22 +124,52 @@ document.addEventListener('mousemove', (e) => {
     cursorGlow.style.top = e.clientY + 'px';
 });
 
-// Form Submission (Demo)
+// Form Submission with Formspree (Improved with Feedback)
 const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btn = contactForm.querySelector('button');
-        const originalText = btn.textContent;
+        const btn = document.getElementById('submit-btn');
+        const data = new FormData(contactForm);
+
+        // Visual loading state
         btn.textContent = 'Sending...';
         btn.disabled = true;
+        formStatus.style.display = 'none';
 
-        setTimeout(() => {
-            alert('Message sent! (This is a demo)');
-            btn.textContent = originalText;
+        try {
+            const response = await fetch(contactForm.action, {
+                method: contactForm.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Success
+                formStatus.textContent = "Thanks! Your message has been sent successfully.";
+                formStatus.style.backgroundColor = "rgba(16, 185, 129, 0.2)"; // Emerald semi-transparent
+                formStatus.style.color = "#10b981";
+                formStatus.style.display = 'block';
+                contactForm.reset();
+            } else {
+                // Server error
+                const errorData = await response.json();
+                throw new Error(errorData.errors ? errorData.errors[0].message : "Submission failed");
+            }
+        } catch (error) {
+            // General error
+            formStatus.textContent = "Oops! Correlation failed. Please try again or use direct email.";
+            formStatus.style.backgroundColor = "rgba(244, 63, 94, 0.2)"; // Rose semi-transparent
+            formStatus.style.color = "#f43f5e";
+            formStatus.style.display = 'block';
+        } finally {
+            btn.textContent = 'Send Message';
             btn.disabled = false;
-            contactForm.reset();
-        }, 1500);
+        }
     });
 }
 
