@@ -21,6 +21,19 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        /* Navbar override for KTU page */
+        #navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body:not(.dark-mode) #navbar {
+            background: rgba(248, 250, 252, 0.95);
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+
         /* Project-specific overrides */
         .project-hero {
             padding-top: 120px;
