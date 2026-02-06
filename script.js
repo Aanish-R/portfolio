@@ -14,6 +14,48 @@ themeToggle.addEventListener('click', () => {
     lucide.createIcons(); // Re-create icons on theme change if needed
 });
 
+// Mobile Menu Toggle
+const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+const navLinksEl = document.querySelector('.nav-links');
+
+// Create overlay element for mobile menu
+const mobileOverlay = document.createElement('div');
+mobileOverlay.className = 'mobile-overlay';
+document.body.appendChild(mobileOverlay);
+
+function toggleMobileMenu() {
+    const isOpen = navLinksEl.classList.toggle('mobile-open');
+    mobileMenuToggle.classList.toggle('active');
+    mobileMenuToggle.setAttribute('aria-expanded', isOpen);
+    mobileOverlay.classList.toggle('active');
+
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeMobileMenu() {
+    navLinksEl.classList.remove('mobile-open');
+    mobileMenuToggle.classList.remove('active');
+    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+    mobileOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+mobileOverlay.addEventListener('click', closeMobileMenu);
+
+// Close mobile menu when clicking nav links
+navLinksEl.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+});
+
+// Close mobile menu on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinksEl.classList.contains('mobile-open')) {
+        closeMobileMenu();
+    }
+});
+
 // Initialize Icons
 lucide.createIcons();
 
@@ -62,7 +104,7 @@ window.addEventListener('scroll', () => {
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
-        if (pageYOffset >= sectionTop - 100) {
+        if (window.scrollY >= sectionTop - 100) {
             current = section.getAttribute('id');
         }
     });
@@ -100,3 +142,83 @@ if (contactForm) {
         }, 1500);
     });
 }
+
+
+// Certificate Modal Functions
+function openCertificate(pdfPath) {
+    const modal = document.getElementById('certificateModal');
+    const viewer = document.getElementById('certificateViewer');
+    viewer.src = pdfPath;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    const modal = document.getElementById('certificateModal');
+    const viewer = document.getElementById('certificateViewer');
+    modal.classList.remove('active');
+    viewer.src = '';
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('certificateModal');
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
+});
+
+
+// Auto-hide Navigation Dock (Desktop only)
+let mouseTimer = null;
+
+// Check if we're on desktop
+function isDesktop() {
+    return window.innerWidth > 768;
+}
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDesktop()) return; // Skip on mobile
+
+    // Show nav when cursor is within 50px of left edge
+    if (e.clientX <= 50) {
+        navLinksEl.classList.add('show');
+
+        // Clear any existing timer
+        if (mouseTimer) {
+            clearTimeout(mouseTimer);
+        }
+    } else if (e.clientX > 250) {
+        // Hide nav when cursor moves away (unless hovering over nav)
+        mouseTimer = setTimeout(() => {
+            if (!navLinksEl.matches(':hover')) {
+                navLinksEl.classList.remove('show');
+            }
+        }, 300);
+    }
+});
+
+// Keep nav visible while hovering (desktop only)
+navLinksEl.addEventListener('mouseenter', () => {
+    if (!isDesktop()) return;
+    navLinksEl.classList.add('show');
+    if (mouseTimer) {
+        clearTimeout(mouseTimer);
+    }
+});
+
+// Hide nav when mouse leaves (with delay, desktop only)
+navLinksEl.addEventListener('mouseleave', () => {
+    if (!isDesktop()) return;
+    mouseTimer = setTimeout(() => {
+        navLinksEl.classList.remove('show');
+    }, 500);
+});
